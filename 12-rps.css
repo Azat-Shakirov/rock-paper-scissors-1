@@ -7,6 +7,14 @@ body {
 .title {
   font-weight: bold;
   font-size: 30px;
+  justify-self: center;
+  margin-bottom: 40px;
+}
+
+.moves-container {
+  justify-self: center;
+  display: flex;
+  gap: 10px;
 }
 
 .move-icon {
@@ -19,18 +27,41 @@ body {
   width: 120px;
   height: 120px;
   border-radius: 60px;
-  margin-right: 10px;
   cursor: pointer;
+  margin-bottom: 40px;
+}
+
+.result, .moves, .score {
+  justify-self: center;
 }
 
 .result{
   font-size: 25px;
   font-weight: bold;
-  margin-top: 50px;
+  margin-bottom: 40px;
+}
+
+.moves {
+  margin-bottom: 60px;
+  margin-left: 30px;
 }
 
 .score{
-  margin-top: 60px;
+  margin-bottom: 40px;
+}
+
+.you-win-green {
+  color: green;
+}
+
+.you-lose-red {
+  color: red;
+}
+
+.reset-auto-buttons {
+  justify-self: center;
+  display:flex;
+  gap: 10px;
 }
 
 .reset-score-button, .auto-play-btn {
@@ -46,10 +77,16 @@ body {
   display: flex;
   gap: 10px;
   align-items: center;
+  justify-self: center;
 }
 
 .warning-btn{
   width: 60px;
   height: 30px;
   cursor: pointer;
+}
+
+.result-message-p{
+  justify-self: center;
+  font-size: 2em;
 }
