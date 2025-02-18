@@ -4,10 +4,20 @@ let score = JSON.parse(localStorage.getItem('score')) || {
   ties: 0
 }; //if left side is null, use default value on the right side
 
+let gamesPlayed = score.wins + score.losses + score.ties;
+let playerMoveSaved = 'scissors';
+
 updateScoreElement();
 
 let isAutoPlaying = false;
 let intervalId;
+
+function displayGameResult(param) {
+  document.querySelector('.js-game-result')
+    .innerHTML = `
+      <p class="result-message-p">${param}</p>
+    `;
+}
 
 function autoPlay() {
   if (!isAutoPlaying) {
@@ -99,8 +109,22 @@ document.body.addEventListener('keydown', (event) => {
   }
 });
 
+function removeClass() {
+  document.getElementById("js-result-id").classList.remove("you-lose-red");
+  document.getElementById("js-result-id").classList.remove("you-win-green");
+}
+
 function playGame(playerMove) {
-  const computerMove = pickComputerMove();
+  let computerMove = playerMoveSaved;
+
+  if (gamesPlayed === 0) {
+    computerMove = 'scissors';
+  }
+
+  if (gamesPlayed === 3 || gamesPlayed === 6 || gamesPlayed === 9 || gamesPlayed === 12 || gamesPlayed === 15 || gamesPlayed === 18 || gamesPlayed === 21) {
+    computerMove = pickComputerMove();
+    console.log('yo');
+  }
 
   let result = '';
 
@@ -134,10 +158,15 @@ function playGame(playerMove) {
 
   if (result === 'You win.') {
     score.wins += 1;
+    removeClass();
+    document.getElementById("js-result-id").classList.add("you-win-green");
   } else if (result === 'You lose.') {
     score.losses += 1;
+    removeClass();
+    document.getElementById("js-result-id").classList.add("you-lose-red");
   } else if (result === 'Tie.') {
     score.ties += 1;
+    removeClass();
   }
 
   localStorage.setItem('score', JSON.stringify(score));
@@ -151,12 +180,26 @@ function playGame(playerMove) {
   <img src="img/${computerMove}-emoji.png" class="move-icon">
   Computer`;
 
+  playerMoveSaved = playerMove;
+
+  if (score.wins === 5) {
+    displayGameResult('Okay..You have won this time..');
+    document.querySelector('.js-game-result').classList.add('you-win-green');
+  }
+  
+  if (score.losses === 5) {
+    displayGameResult('Haha! Loser!');
+    document.querySelector('.js-game-result').classList.add('you-lose-red');
+  }
+  
   updateScoreElement();
 }
 
 function updateScoreElement() {
   document.querySelector('.js-score')
-    .innerHTML = `Wins: ${score.wins}, Losses: ${score.losses}, Ties: ${score.ties}`;
+    .innerHTML = `Wins: ${score.wins}, Losses: ${score.losses}`;
+
+  gamesPlayed = score.wins + score.losses + score.ties;
 }
 
 function pickComputerMove() {
